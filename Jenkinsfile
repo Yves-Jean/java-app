@@ -37,7 +37,7 @@ pipeline {
         }
         stage("Build Docker Image"){
             steps{
-                withCredentials([string(creadentialsId: "d4d97f85-1142-43f1-961b-4cdf2e144eb8",variable:"DOCKER_HUB_PASSWORD")]){
+                withCredentials([string(credentialsId: "d4d97f85-1142-43f1-961b-4cdf2e144eb8",variable:"DOCKER_HUB_PASSWORD")]){
                     sh "docker login -u jeanpcr94 -p $DOCKER_HUB_PASSWORD"
                 }
                 sh "docker build -t jeanpcr94/tp7-devops"
