@@ -1,6 +1,7 @@
+def docker_image
+
 pipeline {
     agent any
-    def docker_image
     tools {
         maven "MAVEN_HOME"
         jdk "jdk8"
@@ -38,13 +39,13 @@ pipeline {
             
         }
         stage("Build Docker Image"){
-            docker_image = steps{
-                sh "docker build -t jeanpcr94/tp7-devops ."
+             steps{
+               docker_image = sh "docker build -t jeanpcr94/tp7-devops ."
             }            
         }
         stage("Push Docker Image"){
             steps{
-                docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
+                docker_image.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
                     docker_image.push 'latest'
                     docker_image.push()
                 }
