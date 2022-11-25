@@ -36,14 +36,15 @@ pipeline {
             }
             
         }
-        stage("Build Docker Image"){
+        def docker_image = stage("Build Docker Image"){
             steps{
-                sh "ls"
-                withCredentials([usernamePassword(credentialsId: "d4d97f85-1142-43f1-961b-4cdf2e144eb8",usernameVariable: 'DOCKER_HUB_USERNAME',passwordVariable:"DOCKER_HUB_PASSWORD")]){
-                    sh "docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD"
-                }
                 sh "docker build -t jeanpcr94/tp7-devops ."
             }            
+        }
+        stage("Push Docker Image"){
+            docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
+                    sh "docker push jeanpcr94/tp7-devops:1.0.0"
+            }
         }
     }
 }
