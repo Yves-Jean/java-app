@@ -38,7 +38,9 @@ pipeline {
         stage("Build Docker Image"){
              steps{
                 script{
-                    def docker_image = docker.build("jeanpcr94/tp7-devops")
+                    docker.withRegistry("https://hub.docker.com/","dockerhub-credentials"){
+                        def docker_image = docker.build("jeanpcr94/devops-tp7")
+                    }
                 }
             }            
         }
