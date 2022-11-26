@@ -1,5 +1,3 @@
-def docker_image
-
 pipeline {
     agent any
     tools {
@@ -40,14 +38,13 @@ pipeline {
         }
         stage("Build Docker Image"){
              steps{
-               docker_image = sh "docker build -t jeanpcr94/tp7-devops ."
+               sh "docker build -t jeanpcr94/tp7-devops ."
             }            
         }
         stage("Push Docker Image"){
             steps{
-                docker_image.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
-                    docker_image.push 'latest'
-                    docker_image.push()
+                docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
+                    sh 'docker push jeanpcr94/tp7-devops:latest'
                 }
             }
         }
