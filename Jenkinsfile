@@ -36,8 +36,8 @@ pipeline {
         }
         stage("Push Docker Image"){
             steps{
-                withCredentials([string(credentialsId: 'dockerhub-credentials', variable:'DOCKERHUB_CREDENTIALS')]) {
-                    sh 'docker login -u jeanpcr94 -p $DOCKERHUB_CREDENTIALS'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_HUB_USERNAME',passwordVariable:"DOCKER_HUB_PASSWORD")]) {
+                    sh 'docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD'
                 }
                 sh "docker push jeanpcr94/devops-tp7:v1.0.0"
                 
