@@ -30,7 +30,7 @@ pipeline {
         stage("Build Docker Image"){
              steps{
                 script{
-                    docker.build("jeanpcr94/devops-tp7")
+                    docker.build("jeanpcr94/devops-tp7:1.0.0")
                 }
             }            
         }
@@ -38,10 +38,16 @@ pipeline {
             steps{
                 script{
                     docker.withRegistry("https://registry.hub.docker.com","dockerhub-credentials"){
-                        sh "docker push jeanpcr94/devops-tp7:latest"
+                        sh "docker push jeanpcr94/devops-tp7:1.0.0"
                     }
                 }
             }
+        }
+    }
+    post{
+        failure{
+            emailext body: ’Ce Build $BUILD_NUMBER a échoué’,
+            recipientProviders:[requestor()], subject: ’build’, to: "jean.coding971@gmail.com"
         }
     }
 }
