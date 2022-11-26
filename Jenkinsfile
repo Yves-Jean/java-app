@@ -30,16 +30,14 @@ pipeline {
         stage("Build Docker Image"){
              steps{
                 script{
-                    docker.withRegistry("https://hub.docker.com/","dockerhub-credentials"){
                         def docker_image = docker.build("jeanpcr94/devops-tp7")
-                    }
                 }
             }            
         }
         stage("Push Docker Image"){
             steps{
                 script{
-                    docker.withRegistry("https://hub.docker.com/","dockerhub-credentials"){
+                    docker.withRegistry("https://hub.docker.com","dockerhub-credentials"){
                         docker_image.push('latest')
                     }
                 }
