@@ -4,14 +4,6 @@ pipeline {
         maven "MAVEN_HOME"
     }
     stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
-        }
         stage("git checkout"){
             steps{
                 git credentialsId:"github-credentials", url:'https://github.com/Yves-Jean/java-app'
