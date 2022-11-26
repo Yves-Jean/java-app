@@ -15,7 +15,7 @@ pipeline {
         }
         stage("git checkout"){
             steps{
-                git credentialsId:"f4ce8537-4c0d-42b1-b6bd-425bbc796e0c", url:'https://github.com/Yves-Jean/java-app'
+                git credentialsId:"github-credentials", url:'https://github.com/Yves-Jean/java-app'
             }
         }
         stage("Set UP"){
@@ -46,7 +46,7 @@ pipeline {
         stage("Push Docker Image"){
             steps{
                 script{
-                    docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
+                    docker.withRegistry("https://hub.docker.com/","dockerhub-credentials"){
                         docker_image.push('latest')
                     }
                 }
