@@ -30,17 +30,17 @@ pipeline {
         stage("Build Docker Image"){
              steps{
                 script{
-                    docker.build("jeanpcr94/devops-tp7:1.0.0")
+                    docker.build("jeanpcr94/devops-tp7:v1.0.0")
                 }
             }            
         }
         stage("Push Docker Image"){
             steps{
-                script{
-                    docker.withRegistry("https://registry.hub.docker.com","dockerhub-credentials"){
-                        sh "docker push jeanpcr94/devops-tp7:1.0.0"
-                    }
+                withCredentials([string(credentialsId: 'dockerhub-credentials', variable:'DOCKERHUB_CREDENTIALS')]) {
+                    sh 'docker login -u jeanpcr94 -p $DOCKERHUB_CREDENTIALS'
                 }
+                sh "docker push jeanpcr94/devops-tp7:v1.0.0"
+                
             }
         }
     }
