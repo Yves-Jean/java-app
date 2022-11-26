@@ -38,13 +38,17 @@ pipeline {
         }
         stage("Build Docker Image"){
              steps{
-               sh "docker build -t jeanpcr94/tp7-devops ."
+                script{
+                    def docker_image = docker.build("jeanpcr94/tp7-devops")
+                }
             }            
         }
         stage("Push Docker Image"){
             steps{
-                docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
-                    sh 'docker push jeanpcr94/tp7-devops:latest'
+                script{
+                    docker.withRegistry("https://hub.docker.com/","d4d97f85-1142-43f1-961b-4cdf2e144eb8"){
+                        docker_image.push('latest')
+                    }
                 }
             }
         }
